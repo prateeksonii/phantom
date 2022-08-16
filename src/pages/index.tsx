@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { getSession, signIn, useSession } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import Head from "next/head";
-import { trpc } from "../utils/trpc";
+import { FcGoogle } from "react-icons/fc";
 
 const Home: NextPage = () => {
   return (
@@ -12,7 +12,23 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <button onClick={() => signIn("google")}>Sign in</button>
+      <div className="container mx-auto my-12">
+        <div className="grid grid-cols-2">
+          <div>
+            <h1 className="font-bold font-head-bold text-7xl leading-tight">
+              Phantom brings <span className="text-green-400">fun</span> and{" "}
+              <span className="text-green-400">privacy</span> back to your
+              conversation.
+            </h1>
+            <button
+              className="bg-zinc-900 flex items-center gap-4 py-6 px-12 rounded-md mt-8 text-xl"
+              onClick={() => signIn("google")}
+            >
+              <FcGoogle /> Sign in with Google
+            </button>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
