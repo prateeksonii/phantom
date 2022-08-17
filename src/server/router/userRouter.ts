@@ -1,6 +1,8 @@
+import { z } from "zod";
+import { createRouter } from "./context";
 import { createProtectedRouter } from "./protected-router";
 
-export const userRouter = createProtectedRouter()
+const privateUserRouter = createProtectedRouter()
   .query("session", {
     resolve({ ctx }) {
       return ctx.session;
@@ -15,3 +17,24 @@ export const userRouter = createProtectedRouter()
       return user;
     },
   });
+
+const publicUserRouter = createRouter().query("search", {
+  input: z.object({
+    email: z.string(),
+  }),
+  async resolve({ ctx, input }) {
+    const users = await ctx.prisma.user.findMany({
+      where: {
+        email: {
+          contains: input.email,
+        },
+      },
+    });
+
+    return users;
+  },
+});
+
+export const userRouter = createRouter()
+  .merge(publicUserRouter)
+  .merge(privateUserRouter);
