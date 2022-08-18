@@ -31,9 +31,6 @@ export default withTRPC<AppRouter>({
     return {
       url,
       transformer: superjson,
-      headers: {
-        cookie: ctx?.req?.headers.cookie,
-      },
       /**
        * @link https://react-query.tanstack.com/reference/QueryClient
        */
@@ -43,5 +40,5 @@ export default withTRPC<AppRouter>({
   /**
    * @link https://trpc.io/docs/ssr
    */
-  ssr: true,
+  ssr: false,
 })(MyApp);
